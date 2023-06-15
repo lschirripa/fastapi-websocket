@@ -74,8 +74,18 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     try:
         while True:
             data = await websocket.receive_text()
-            await manager.send_personal_message(f"You wrote: {data}", websocket)
-            await manager.broadcast(f"Client #{client_id} says: {data}")
+            response = talk_with_bot_mockup(data)
+            await manager.send_personal_message(f"BOT: {response}", websocket)
+
+            # await manager.send_personal_message(f"You wrote: {data}", websocket)
+            # await manager.broadcast(f"Client #{client_id} says: {data}")
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
+
+def talk_with_bot_mockup(user_input: str) -> str:
+    if "hello" in user_input  :
+        bot_output = "hi stupid"
+    else:
+        bot_output = "say hello before talking w me"
+    return bot_output
