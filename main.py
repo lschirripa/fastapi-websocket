@@ -75,7 +75,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
         while True:
             data = await websocket.receive_text()
             response = talk_with_bot_mockup(data)
-            await manager.send_personal_message(f"BOT: {response}", websocket)
+            
+            await manager.broadcast(f"USER {str(client_id)[2:]}: {data}")
+            await manager.broadcast(f"BOT: {response}")
 
             # await manager.send_personal_message(f"You wrote: {data}", websocket)
             # await manager.broadcast(f"Client #{client_id} says: {data}")
